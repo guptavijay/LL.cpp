@@ -1,0 +1,143 @@
+
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+class Node
+{
+  
+  public:
+   int data;
+   Node * next;
+   Node(int x)
+   {
+       data=x;
+       next=NULL;
+   }
+};
+Node* createll(vector<int> &v)
+{
+    Node * head= NULL;
+    Node* tail=NULL;
+    for(int i=0;i<v.size();i++)
+    {
+        int x=v[i];
+        Node * temp=new Node(x);
+        if(head==NULL)
+        {
+            head=tail=temp;
+        }
+        else
+        {
+            tail->next=temp;
+            tail=tail->next;
+        }
+    }
+    return head;
+}
+void printll(Node * head)
+{
+    while(head!=NULL)
+    {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+   // cout<<head->next->next;
+}
+int getlen(Node * head)
+{
+   /* int cnt=0;
+    while(head!=NULL)
+    {
+        cnt++;
+        head=head->next;
+    }
+    return cnt;
+    */
+    if(head==NULL)
+    {
+        return 0;
+    }
+    return getlen(head->next)+1;
+}
+int midpt(Node * head)
+{
+    Node * slow=head;
+    Node * fast=head;
+    while( slow && fast && fast->next && fast->next->next)
+    {
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+    int x=slow->data;
+    return x;
+}
+int palin(Node * head)
+{
+    int len=getlen(head);
+    stack<int> s;
+    int res=0;
+    if(len%2==0)
+    {
+        int x=len/2;
+        int cnt=0;
+        while(cnt<x)
+        {
+            s.push(head->data);
+            head=head->next;
+            cnt++;
+        }
+        while(cnt<len)
+        {
+            int y= s.top();
+            s.pop();
+            if(y!=head->data)
+            {
+                res++;
+            }
+            head=head->next;
+            cnt++;
+        }
+        if(res>0)
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+    else
+    {
+        
+    }
+}
+
+int main()
+{
+    vector<int> v;
+    v.push_back(4);
+    v.push_back(2);
+    v.push_back(8);
+    v.push_back(8);
+    v.push_back(2);
+    v.push_back(4);
+    int n=v.size();
+ 
+    Node * head=createll(v);
+    printll(head);
+    //cout<<len(head);
+  //  Node * temp=midpt(head);
+    //cout<<"MID POINT IS"<<" "<<temp->data<<endl;
+   cout<<midpt(head)<<endl;
+    int cnt= palin(head);
+    if(cnt==1)
+    {
+        cout<<"LL IS PALINDROME";
+    }
+    else
+    {
+        cout<<"LL IS NOT PALINDROME";
+    }
+    return 0;
+}
+
